@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Usuarios</title>
+    </head>
+    <body>
+        <h2>Usuários cadastrados</h2>
+
+        <table border="1">
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th> </th>
+                <th> </th>
+                
+            </tr>
+
+            {% for pessoa in pessoas %}
+
+                <tr>
+                    <td>{{ pessoa[1] }}</td>
+                    <td>{{ pessoa[2] }}</td>
+                    <td>
+                        <form action="/deletar_cadastro/{{ pessoa[0] }}" method="POST">
+                            <button type="submit">Excluir</button>
+                        </form>
+                    </td>
+                    <td>
+                        <form action="/editar_cadastro/{{ pessoa[0]}}" methods="GET">
+                            <button type="submit">Editar</button>
+                        </form>
+                    </td>
+                    
+                </tr>
+
+            {% endfor %}
+        </table>
+
+        <br>
+
+        <a href="/">
+            <button>Voltar</button>
+        </a>
+    </body>
+</html>

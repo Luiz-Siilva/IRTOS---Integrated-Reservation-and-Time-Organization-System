@@ -77,7 +77,7 @@ def edit_user(id):
     cursor.execute(query, (id,))
     users = cursor.fetchone()
 
-    return render_template("edit_user.html", users = users)
+    return render_template("edit_users.html", users = users)
 
 # BOTÃO PARA SALVAR A EDIÇÃO DO USUARIO
 

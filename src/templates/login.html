@@ -4,15 +4,15 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
-        <title>King of Projects</title>
+        <title>Criar conta</title>
     </head>
     <body>
         <h1 class="titulo">Criar sua Conta </h1>
 
-        <form action="/cadastrar_usuario " method="POST">
+        <form action="/register_user " method="POST">
 
             <label class="dados">Nome:</label>
-                <input class="informacao" type="text" name="nome" placeholder="Digite o Nome de Usuário"> 
+                <input class="informacao" type="text" name="name" placeholder="Digite o Nome de Usuário"> 
                 <br><br>
 
             <label class="dados">Email:</label>
@@ -23,8 +23,8 @@
             <br><br>
         </form>
 
-        <form action="/lista_de_pessoas">
-            <a heref="/usuarios.html">
+        <form action="/list_users">
+            <a heref="/lis_users.html">
             <button class="ver">Ver usuarios</button>
             </a>
         </form>

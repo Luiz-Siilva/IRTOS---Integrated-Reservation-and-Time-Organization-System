@@ -2,12 +2,12 @@ from flask import Flask, render_template, request, redirect
 import mysql.connector
 
 # CONECTAR AO BANCO DE DADOS.
-def conectar():
+def connect_db():
     return mysql.connector.connect(
         host="localhost",
         user="root",
         password="Luiz/30/09",
-        database="db_teste"
+        database="db_users"
     )
 
 app = Flask(__name__)
@@ -19,85 +19,85 @@ def home():
 
 # SALVAR OS DADOS CRIADOS PELO CLIENTE, SALVA NO BANCO DE DADOS.
 
-@app.route("/cadastrar_usuario", methods=["POST"])
-def cadastrar_usuarios():
+@app.route("/register_user", methods=["POST"])
+def register_user():
     
-    nome = request.form.get("nome")
-    email = request.form.get("email")
+    user_name = request.form.get("name")
+    user_email = request.form.get("email")
 
-    conexao = conectar()
-    cursor = conexao.cursor()
+    connection = connect_db()
+    cursor = connection.cursor()
 
-    sql = "INSERT INTO pessoas (nome, email) VALUES (%s, %s)"
-    valores = (nome, email)
+    query = "INSERT INTO users (name, email) VALUES (%s, %s)"
+    values = (user_name, user_email)
 
-    cursor.execute(sql, valores)
+    cursor.execute(query, values)
 
-    conexao.commit()
-    conexao.close()
+    connection.commit()
+    connection.close()
     return f"Usuário Salvo com Sucesso!"
 
 # MOSTRA A LISTA DOS USUARIOS CRIADOS.
 
-@app.route("/lista_de_pessoas")
-def lista_de_pessoas():
-    conexao = conectar()
-    cursor = conexao.cursor()
+@app.route("/list_users")
+def list_users():
+    connection = connect_db()
+    cursor = connection.cursor()
 
-    cursor.execute("SELECT id, nome, email FROM pessoas")
+    cursor.execute("SELECT id, name, email FROM users")
 
-    pessoas = cursor.fetchall()
+    users = cursor.fetchall()
 
-    conexao.close()
+    connection.close()
 
-    return render_template("usuarios.html", pessoas = pessoas)
+    return render_template("list_users.html", users = users)
 
 # BOTÃO DE EXCLUIR O USUARIO DA TABELA
 
-@app.route("/deletar_cadastro/<int:id>", methods =["POST"])
-def deletar_usuario(id):
-    conexao = conectar()
-    cursor = conexao.cursor()
+@app.route("/delete_user/<int:id>", methods =["POST"])
+def delete_user(id):
+    connection = connect_db()
+    cursor = connection.cursor()
 
-    cursor.execute("DELETE FROM pessoas WHERE id = %s", (id,))
+    cursor.execute("DELETE FROM users WHERE id = %s", (id,))
 
-    conexao.commit()
-    conexao.close()
+    connection.commit()
+    connection.close()
 
-    return redirect("/lista_de_pessoas")
+    return redirect("/list_users")
 
 # BOTÃO PARA EDITAR CADASTRO DO USUARIO
 
-@app.route("/editar_cadastro/<int:id>")
-def editar_cadastro(id):
-    conexao = conectar()
-    cursor = conexao.cursor()
+@app.route("/edit_user/<int:id>")
+def edit_user(id):
+    connection = connect_db()
+    cursor = connection.cursor()
 
-    sql = "SELECT * FROM pessoas WHERE id = %s"
-    cursor.execute(sql, (id,))
-    pessoas = cursor.fetchone()
+    query = "SELECT * FROM users WHERE id = %s"
+    cursor.execute(query, (id,))
+    users = cursor.fetchone()
 
-    return render_template("editar.html", pessoas = pessoas)
+    return render_template("edit_user.html", users = users)
 
 # BOTÃO PARA SALVAR A EDIÇÃO DO USUARIO
 
-@app.route("/atualizar_cadastro", methods=["POST"])
-def atualizar_cadastro():
+@app.route("/update_user", methods=["POST"])
+def update_user():
 
     id = request.form.get("id")
-    nome = request.form.get("nome")
-    email = request.form.get("email")
+    user_name = request.form.get("name")
+    user_email = request.form.get("email")
 
-    conexao = conectar()
-    cursor = conexao.cursor()
+    connection = connect_db()
+    cursor = connection.cursor()
 
-    sql = "UPDATE pessoas SET nome= %s, email= %s WHERE id= %s"
-    valores = (nome, email, id)
+    query = "UPDATE users SET name= %s, email= %s WHERE id= %s"
+    values = (user_name, user_email, id)
 
-    cursor.execute(sql, valores)
+    cursor.execute(query, values)
 
-    conexao.commit()
-    conexao.close()
-    return redirect("/lista_de_pessoas")
+    connection.commit()
+    connection.close()
+    return redirect("/list_users")
 
 app.run(debug=True)

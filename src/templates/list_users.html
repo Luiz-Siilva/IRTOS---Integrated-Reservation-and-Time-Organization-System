@@ -20,15 +20,15 @@
             {% for pessoa in pessoas %}
 
                 <tr>
-                    <td>{{ pessoa[1] }}</td>
-                    <td>{{ pessoa[2] }}</td>
+                    <td>{{ users[1] }}</td>
+                    <td>{{ users[2] }}</td>
                     <td>
-                        <form action="/deletar_cadastro/{{ pessoa[0] }}" method="POST">
+                        <form action="/delete_user/{{ users[0] }}" method="POST">
                             <button type="submit">Excluir</button>
                         </form>
                     </td>
                     <td>
-                        <form action="/editar_cadastro/{{ pessoa[0]}}" methods="GET">
+                        <form action="/edit_user/{{ users[0]}}" methods="GET">
                             <button type="submit">Editar</button>
                         </form>
                     </td>

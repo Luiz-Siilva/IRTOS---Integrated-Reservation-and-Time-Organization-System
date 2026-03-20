@@ -9,14 +9,14 @@
 
         <h2>Editar Usuário</h2>
 
-        <form action="/atualizar_cadastro" method="POST">
+        <form action="/update_user" method="POST">
 
-            <input type="hidden" name="id" value="{{pessoas[0]}}">
+            <input type="hidden" name="id" value="{{users[0]}}">
             Nome:
-            <input type="text" name="nome" value="{{pessoas[1]}}">
+            <input type="text" name="name" value="{{users[1]}}">
             <br><br>
             Email:
-            <input type="text" name="email" value="{{pessoas[2]}}">
+            <input type="text" name="email" value="{{users[2]}}">
             <br><br>
             <button type="submit">Salvar</button>
             

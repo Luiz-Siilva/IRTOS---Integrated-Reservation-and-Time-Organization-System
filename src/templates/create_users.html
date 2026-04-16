@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styless.css') }}">
+    <title>Criar conta</title>
+</head>
+
+<body>
+
+    <div class="create-container">
+        <div class="left">
+            <h1><b>IRTOS</b></h1>
+            <h2><b>VAMOS LÁ!</b></h2>
+        </div>
+
+        <div class="create-right">
+            <h1 class="cadastro"><b>Cadastra-se</b></h1>
+            <div class="create-notice">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <form action="/register_user" method="POST">
+                <div class="input-group-create">
+                    <p class="inf">Nome completo</p>
+                    <input type="text" name="name" placeholder="Informe seu nome completo" required value="{{name or ''}}">
+                    <br>
+                </div>
+
+                <div class="input-group-create">
+                    <p class="inf"> Usuário</p>
+                    <input type="text" name="user" placeholder="Digite seu usuário" required>
+                    <br>
+                </div>
+
+                <div class="input-group-create">
+                    <p class="inf">Email</p>
+                    <input type="email" name="email" placeholder="Digite o E-mail"required value="{{email or ''}}">
+                    <br>
+                </div>
+
+                <div class="input-group-create">
+                    <p class="inf"> Telefone</p>
+                    <input type="phone" name="phone" placeholder="(00) 00000-0000" required value="{{phone or ''}}">
+                    <br>
+                </div>
+
+                <div class="row">
+                    <div class="input-group-create">
+                        <p class="inf">Senha</p>
+                        <input type="password" name="password" placeholder="*********" required>
+                        <br>
+                    </div>
+
+                    <div class="input-group-create">
+                        <p class="inf">Confirme sua senha</p>
+                        <input class="pass" type="password" name="confirm_password" placeholder="*********" required>
+                        <br>
+                    </div>
+                    
+                </div>
+                <button class="btn-create" Type="submit">Criar conta</button>
+                <br>
+                <button class="create-btn-secondary" type="submit">Possui cadastro? Acesse sua conta</button>
+            </form>
+
+            <div class="create-divider">
+                <span>ou</span>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+
+</html>

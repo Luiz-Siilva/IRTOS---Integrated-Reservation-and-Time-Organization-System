@@ -1,34 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='estilo.css') }}">
-        <title>Criar conta</title>
-    </head>
-    <body>
-        <h1 class="titulo">Criar sua Conta </h1>
 
-        <form action="/register_user " method="POST">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styless.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <title>Login</title>
+</head>
 
-            <label class="dados">Nome:</label>
-                <input class="informacao" type="text" name="name" placeholder="Digite o Nome de Usuário"> 
-                <br><br>
+<body>
+    <div class="login-container">
+        <div class="left">
+            <h1><b>IRTOS</b></h1>
+            <h2><b>Bem-vindo(a) de volta!</b></h2>
+        </div>
 
-            <label class="dados">Email:</label>
-            <input class="informacao" type="email" name="email" placeholder="Digite o E-mail">
-                <br><br>
+        <div class="login-right">
 
-            <button class= "criar" Type="submit">Criar</button>
-            <br><br>
-        </form>
+            <div class="user-img">
+                <img src="{{ url_for('static', filename='imagens/icone.png') }}" alt="Usuário">
+            </div>
+            <h1><b>Fazer login</b></h1>
 
-        <form action="/list_users">
-            <a heref="/lis_users.html">
-            <button class="ver">Ver usuarios</button>
-            </a>
-        </form>
+            <div class="login-notice">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <form action="/login_user" method="POST">
+                <div class="login-input-group">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="email" placeholder="  Email" required>
+                    <br>
+                </div>
 
-    </body>
+                <div class="login-input-group">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" placeholder="  Senha" required>
+                    <br>
+                </div>
+
+                <div class="login-options">
+                    <span><input type="checkbox"> Lembrar </span>
+                    <a href="#">Esqueceu a senha?</a>
+                </div>
+
+                <button class="login-btn" type="submit"> Entrar </button>
+
+            </form>
+            <div class="login-divider">
+                <span>ou</span>
+            </div>
+
+            <form action="create_users" method="GET">
+                <button class="login-btn-secondary" type="submit"> Criar usuário </button>
+            </form>
+
+        </div>
+    </div>
+
+</body>
 
 </html>

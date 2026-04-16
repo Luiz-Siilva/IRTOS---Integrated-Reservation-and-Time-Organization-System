@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash, session
+from werkzeug.security import generate_password_hash, check_password_hash
 import mysql.connector
 
 # CONECTAR AO BANCO DE DADOS.
@@ -11,93 +12,103 @@ def connect_db():
     )
 
 app = Flask(__name__)
+app.secret_key = "segredo"
 
 # TELA INICIAL (LOGIN)
 @app.route("/")
 def home():
     return render_template("login.html")
 
-# SALVAR OS DADOS CRIADOS PELO CLIENTE, SALVA NO BANCO DE DADOS.
+# TELA DE CRIAR USUARIO
+@app.route("/create_users")
+def create_users():
+    return render_template("create_users.html")
 
+# SALVAR OS DADOS CRIADOS PELO CLIENTE, SALVA NO BANCO DE DADOS.
 @app.route("/register_user", methods=["POST"])
 def register_user():
     
     user_name = request.form.get("name")
     user_email = request.form.get("email")
+    user_phone = request.form.get("phone")
+    user_password = request.form.get("password")
+    confirm_password = request.form.get("confirm_password")
+
+    #BLOQUEAR CAMPOS SEM NADA
+    if not user_name or not user_email or not user_phone or not user_password or not confirm_password:
+        flash("Preencha todos os campos")
+        return redirect("/register_user")
+
+    #VALIDAR SENHA
+    if user_password != confirm_password:
+        flash("As senhas não coincidem")
+        return render_template("/create_users.html",
+                               name=user_name,
+                               email=user_email,
+                               phone=user_phone)
 
     connection = connect_db()
     cursor = connection.cursor()
 
-    query = "INSERT INTO users (name, email) VALUES (%s, %s)"
-    values = (user_name, user_email)
+    #VERIFICAR SE EMAIL JÁ EXISTE
+    cursor.execute("SELECT * FROM users WHERE email = %s", (user_email,))
+    user = cursor.fetchone()
+
+    if user:
+        flash("Esse email já está cadastrado!")
+        connection.close()
+        return redirect("/")
+
+    #CRIPTOGRAFAR SENHA
+    password_hash = generate_password_hash(user_password)
+
+    query = "INSERT INTO users (name, email, phone, password) VALUES (%s, %s, %s, %s)"
+    values = (user_name, user_email, user_phone, password_hash)
 
     cursor.execute(query, values)
 
     connection.commit()
     connection.close()
-    return f"Usuário Salvo com Sucesso!"
 
-# MOSTRA A LISTA DOS USUARIOS CRIADOS.
+    flash("Usuário cadastrado com sucesso!")
 
-@app.route("/list_users")
-def list_users():
-    connection = connect_db()
-    cursor = connection.cursor()
+    return redirect("/")
 
-    cursor.execute("SELECT id, name, email FROM users")
+# LOGIN DENTRO DO SISTEMA
 
-    users = cursor.fetchall()
+@app.route("/login_user", methods=["POST"])
+def login_user():
 
-    connection.close()
-
-    return render_template("list_users.html", users = users)
-
-# BOTÃO DE EXCLUIR O USUARIO DA TABELA
-
-@app.route("/delete_user/<int:id>", methods =["POST"])
-def delete_user(id):
-    connection = connect_db()
-    cursor = connection.cursor()
-
-    cursor.execute("DELETE FROM users WHERE id = %s", (id,))
-
-    connection.commit()
-    connection.close()
-
-    return redirect("/list_users")
-
-# BOTÃO PARA EDITAR CADASTRO DO USUARIO
-
-@app.route("/edit_user/<int:id>")
-def edit_user(id):
-    connection = connect_db()
-    cursor = connection.cursor()
-
-    query = "SELECT * FROM users WHERE id = %s"
-    cursor.execute(query, (id,))
-    users = cursor.fetchone()
-
-    return render_template("edit_users.html", users = users)
-
-# BOTÃO PARA SALVAR A EDIÇÃO DO USUARIO
-
-@app.route("/update_user", methods=["POST"])
-def update_user():
-
-    id = request.form.get("id")
-    user_name = request.form.get("name")
     user_email = request.form.get("email")
+    user_password = request.form.get("password")
 
     connection = connect_db()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
 
-    query = "UPDATE users SET name= %s, email= %s WHERE id= %s"
-    values = (user_name, user_email, id)
+    #BUSCAR USUARIO PELO EMAIL
+    query = "SELECT * FROM users WHERE email = %s"
+    cursor.execute(query, (user_email,))
+    user = cursor.fetchone()
 
-    cursor.execute(query, values)
-
-    connection.commit()
     connection.close()
-    return redirect("/list_users")
+
+    #SE NÃO ENCONTROU O USUARIO
+    if user is None:
+        flash("Email ou senha inválidos!")
+        return redirect("/")
+    
+    #VERIFICAR SENHA
+    if check_password_hash(user["Password"], user_password):
+        #LOGIN CORRETO
+        session["user_id"] = user["Id_users"]
+        session["user_name"] = user["Name"]
+
+        return render_template("system_agend.html")
+    else:
+        #SENHA INVALIDA
+        flash("Email ou senha inválida!")
+        return redirect("/")
 
 app.run(debug=True)
+
+

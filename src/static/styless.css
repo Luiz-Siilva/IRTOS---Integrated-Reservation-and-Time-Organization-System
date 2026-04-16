@@ -1,0 +1,312 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* FUNDO */
+body {
+    height: 100vh;
+    background: url("/static/imagens/fundo.png") no-repeat center center;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+/* CONTAINER PRINCIPAL */
+.login-container {
+    width: 1500px;
+    height: 750px;
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    background: url("/static/imagens/left.png") no-repeat center;
+    background-size: cover;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* LADO ESQUERDO */
+.left {
+    flex: 1;
+    padding: 40px;
+    position: relative;
+}
+
+.login-notice {
+    margin-left: 260px;
+    margin-bottom: 15px;
+    color: green;
+}
+
+/* TEXTO */
+.left h1 {
+    font-size: 36px;
+    position: relative;
+    z-index: 2;
+    margin-top: -20px;
+    text-shadow: 2px 2px 5px #5e5e5e;
+    color: rgb(252, 252, 252)
+}
+
+.left h2 {
+    position: absolute;
+    bottom: 30px;
+    font-size: 60px;
+    font-weight: bold;
+    margin-left: 10px;
+    text-shadow: 5px 5px 5px #cfcfcf;
+    color: #fdfdfd;
+}
+
+/* LADO DIREITO (LOGIN) */
+.login-right {
+    flex: 1;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
+        url("/static/imagens/right.png") no-repeat center;
+    background-size: cover;
+    backdrop-filter: blur(10px);
+    padding: -20px;
+    border-radius: 25px;
+    margin: 5px;
+}
+
+.user-img img {
+    display: block;
+    margin: -30px auto;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    /* deixa redonda */
+    object-fit: cover;
+    /* não distorce */
+    background: none;
+}
+
+/* TÍTULO */
+.login-right h1 {
+    text-align: left;
+    font-size: 40px;
+    margin: 150px;
+    margin-top: -70px;
+    margin-bottom: 20px;
+}
+
+/* INPUTS */
+.login-input-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.login-input-group i {
+    position: absolute;
+    left: 170px;
+    margin-top: 0px;
+    transform: translateY(100%);
+    color: #000000;
+}
+
+.login-input-group input {
+    width: 60%;
+    padding: 16px 16px 16px 40px;
+    border-radius: 20px;
+    margin-left: 150px;
+    border: none;
+    background: rgb(213, 216, 219);
+    outline: none;
+}
+
+/* OPÇÕES */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 15px;
+    margin-bottom: 20px;
+    margin-left: 150px;
+    margin-right: 150px;
+}
+
+/* BOTÃO PRINCIPAL */
+.login-btn {
+    width: 60%;
+    padding: 16px;
+    border-radius: 25px;
+    border: none;
+    margin-left: 150px;
+    background: #111;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    opacity: 0.8;
+}
+
+/* DETALHE DO OU ENTRE OS BOTÃO */
+.login-divider {
+    display: flex;
+    width: 59%;
+    align-items: center;
+    text-align: center;
+    margin: 15px auto;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: rgb(167, 167, 168);
+}
+
+.login-divider span {
+    margin: 0 10px;
+    color: rgb(167, 167, 168);
+    font-size: 14px;
+}
+
+/* BOTÃO SECUNDÁRIO */
+.login-btn-secondary {
+    width: 60%;
+    padding: 16px;
+    border-radius: 25px;
+    border: none;
+    margin-left: 150px;
+    background: rgb(213, 216, 219);
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn-secondary:hover {
+    opacity: 0.8;
+}
+
+/* TELA DE CADASTRO */
+.create-container {
+    width: 1500px;
+    height: 750px;
+    display: flex;
+    border-radius: 25px;
+    overflow: hidden;
+    background: url("/static/imagens/left.png") no-repeat center;
+    background-size: cover;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.create-right {
+    flex: 1;
+    background:
+        linear-gradient(rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 0.4)),
+        url("/static/imagens/right.png") no-repeat center;
+    background-size: cover;
+    backdrop-filter: blur(10px);
+    padding: 50px;
+    border-radius: 25px;
+    margin: 5px;
+}
+
+.create-right h1 {
+    font-size: 46px;
+    margin-left: 60px;
+    margin-top: -30px;
+    margin-bottom: 20px;
+}
+
+/* INPUTS DA TELA DE CADASTRO */
+
+.input-group-create {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.input-group-create input {
+    width: 75%;
+    margin-left: 60px;
+    margin-bottom: 5px;
+    padding: 16px 16px 16px 40px;
+    border-radius: 20px;
+    border: none;
+    background: rgb(213, 216, 219);
+    outline: none;
+}
+
+.inf {
+    margin-left: 60px;
+    margin-bottom: 5px;
+    color: black;
+}
+
+.row {
+    display: flex;
+    gap: 22px;
+}
+
+.row .input-group {
+    flex: 1;
+}
+
+/* Botões de criar */
+.btn-create {
+    width: 75%;
+    padding: 16px;
+    border-radius: 25px;
+    border: none;
+    margin-left: 60px;
+    background: #111;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-create:hover {
+    opacity: 0.8;
+}
+
+.create-divider {
+    display: flex;
+    width: 75%;
+    align-items: center;
+    text-align: center;
+    margin-left: 60px;
+}
+
+.create-divider::before,
+.create-divider::after {
+    content: "";
+    flex: 1;
+    height: 2px;
+    background: rgb(167, 167, 168);
+}
+
+.create-divider span {
+    margin: 0 10px;
+    color: rgb(167, 167, 168);
+    font-size: 14px;
+}
+
+.create-btn-secondary {
+    width: 75%;
+    padding: 16px;
+    border-radius: 25px;
+    border: none;
+    margin-left: 60px;
+    background: rgb(213, 216, 219);
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.create-btn-secondary:hover {
+    opacity: 0.8;
+}
+
+.create-notice{
+    margin-left: 200px;
+    margin-bottom: 15px;
+    color:red
+}
